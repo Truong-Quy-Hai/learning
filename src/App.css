@@ -5,11 +5,69 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  width: 100%;
+  padding: 1rem;
+}
+.app.dark {
+  background-color: #333;
+  color: #eee;
+}
+
+.add-task {
+  margin-top: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.add-task .add-task-input {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.add-task.dark .add-task-input.dark label,
+.add-task.dark .add-task-input.dark input {
+  color: #eee;
+}
+
+.add-task.dark .add-task-input.dark .MuiInput-underline:before {
+  border-bottom-color: #ddd;
+}
+
+.add-task .add-task-input .MuiInput-underline:hover:before {
+  border-bottom-color: #eee;
+}
+
+.add-task.dark .MuiButton-containedPrimary {
+  background-color: #eee !important;
+  color: #333 !important;
+}
+
+.task-tracker-tool {
+  display: flex;
+  position: absolute;
+  right: 10px;
+}
+
+.task-tracker-tool .icon {
+  margin: 0 0.2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.task-tracker-tool.dark .icon {
+  color: #eee;
 }
 
 .task-tracker {
-  padding: 1rem;  
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem;
+  padding-top: 0rem;
+  position: relative;
 }
 
 .tasks .task {
@@ -32,7 +90,7 @@ body {
   flex-basis: 3.6rem;
 }
 
-.tasks .task .icon{
+.tasks .task .icon {
   position: absolute;
   transform: translateY(-50%);
   right: 2rem;
@@ -41,23 +99,73 @@ body {
   height: 1.8rem;
 }
 
-.tasks .task.done .icon{
+.tasks .task.done .icon {
   fill: #4caf50;
 }
+.tasks .task.done.dark .icon {
+  fill: #898fff;
+}
 
-.tasks .task.ongoing .icon{
+.tasks .task.ongoing .icon {
   fill: #f27474;
+}
+
+.tasks .task.ongoing.dark .icon {
+  fill: #ff1e83;
 }
 
 .tasks .task.done {
   border-left-color: #f27474;
 }
 
-.tasks .task .icon.delete-icon{
+.tasks .task.done {
+  border-left-color: #ff1e83;
+}
+
+.tasks .task .icon.delete-icon {
   fill: #000000;
   right: 0;
 }
 
-.tasks .task.ongoing{
+.tasks .task .icon.delete-icon.dark {
+fill: #eee;
+}
+
+.tasks .task.ongoing {
   border-left-color: #00b300;
+}
+.tasks .task.ongoing.dark {
+  border-left-color: #898fff;
+}
+
+/* animations */
+.task-default {
+  transform: scale(0.6) translateY(-100px);
+  opacity: 0;
+}
+
+.task-transition-enter {
+  transform: scale(0.6) translateY(-100px);
+  opacity: 0;
+}
+.task-transition-enter-active {
+  transform: scale(1) translateY(0px);
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+.task-transition-enter-done {
+  transform: scale(1) translateY(0px);
+  opacity: 1;
+}
+
+.task-transition-exit {
+  opacity: 1;
+}
+.task-transition-exit-active {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.task-transition-exit-done {
+  opacity: 0;
 }
