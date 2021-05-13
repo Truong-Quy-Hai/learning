@@ -1,38 +1,63 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.task-tracker {
+  padding: 1rem;  
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.tasks .task {
+  padding: 0 0.5rem;
+  background-color: rgba(164, 164, 171, 0.282);
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  line-height: 2rem;
+  border-left: 5px solid transparent;
+  border-bottom: 1px solid rgba(197, 197, 197, 0.753);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
 }
 
-.App-link {
-  color: #61dafb;
+.tasks .task .icon-group {
+  display: block;
+  width: 3.6rem;
+  flex-basis: 3.6rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.tasks .task .icon{
+  position: absolute;
+  transform: translateY(-50%);
+  right: 2rem;
+  top: 50%;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.tasks .task.done .icon{
+  fill: #4caf50;
+}
+
+.tasks .task.ongoing .icon{
+  fill: #f27474;
+}
+
+.tasks .task.done {
+  border-left-color: #f27474;
+}
+
+.tasks .task .icon.delete-icon{
+  fill: #000000;
+  right: 0;
+}
+
+.tasks .task.ongoing{
+  border-left-color: #00b300;
 }
