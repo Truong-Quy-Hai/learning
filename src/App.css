@@ -115,7 +115,17 @@ body {
 }
 
 .tasks .task.done {
+  position: relative;
   border-left-color: #f27474;
+}
+
+.tasks .task.dark.done::before {
+  content: "";
+  height: 2px;
+  width: 80%;
+  left: 0;
+  background-color: #eee;
+  position: absolute;
 }
 
 .tasks .task.done {
@@ -128,7 +138,7 @@ body {
 }
 
 .tasks .task .icon.delete-icon.dark {
-fill: #eee;
+  fill: #eee;
 }
 
 .tasks .task.ongoing {

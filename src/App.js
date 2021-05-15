@@ -1,5 +1,4 @@
 import "./App.css";
-import AddIcon from "@material-ui/icons/Add";
 import LightIcon from "@material-ui/icons/Brightness7";
 import DarkIcon from "@material-ui/icons/Brightness5";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -13,16 +12,11 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  Button,
-  Container,
-  FormControl,
-  Input,
-  InputLabel,
-} from "@material-ui/core";
+import { Button, FormControl, Input, InputLabel } from "@material-ui/core";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { v4 } from "uuid";
-import { ListGroup } from "react-bootstrap";
+
+const domain = "http://localhost:8080";
 
 function AddTask({ onAddTask }) {
   const [inputTask, setInputTask] = useState("");
@@ -178,11 +172,9 @@ function App() {
   useEffect(() => {
     async function fetchTasks() {
       const limit = 10;
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/todos?_limit=${limit}`
-      );
-      const tasks = await response.json();
-      setTasks(tasks);
+      const response = await fetch(`${domain}/todos`);
+      let tasks = await response.json();
+      setTasks(tasks.reverse());
       setLoaded(true);
     }
 
@@ -191,34 +183,49 @@ function App() {
 
   // toggle done/ongoing for tasks
   const onToggleTask = (id) => {
-    const newTasks = tasks.map((task) =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    );
-    setTasks(newTasks);
+    // DB
+    const newTask = tasks.find((task) => task.id === id);
+    newTask.completed = !newTask.completed;
+
+    fetch(`${domain}/todos/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newTask),
+    })
+      .then((res) => res.json())
+      .then((newTask) => {
+        // UI
+        const newTasks = tasks.map((task) =>
+          task.id === newTask.id ? newTask : task
+        );
+        setTasks(newTasks);
+      });
   };
 
   // delete task
   const onDeleteTask = (id) => {
-    const newTasks = tasks.filter((task) => task.id !== id);
-    setTasks(newTasks);
+    fetch(`${domain}/todos/${id}`, { method: "DELETE" }).then(() => {
+      const newTasks = tasks.filter((task) => task.id !== id);
+      setTasks(newTasks);
+    });
+    // UI
   };
 
   // add task
   const onAddTask = async (taskName) => {
     const newTask = {
-      userId: 1,
       title: taskName,
       completed: false,
     };
-    const response = await fetch("https://jsonplaceholder.typicode.com/todos", {
+    const response = await fetch(`${domain}/todos`, {
       method: "POST",
-      body: JSON.stringify(newTask),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(newTask),
     });
     const task = await response.json();
-    setTasks([{ ...task, id: v4() }, ...tasks]);
+    setTasks([task, ...tasks]);
   };
 
   return (
